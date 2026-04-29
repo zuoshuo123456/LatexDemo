@@ -247,16 +247,33 @@
     // 加载游戏
     updateProgress('正在加载资源...');
     
-    System.import('./index.ab0bc.js')
-        .then(function() {
-            updateProgress('资源加载完成,正在初始化...');
-            // 延迟隐藏加载界面,确保游戏完全启动
-            setTimeout(hideLoading, 1500);
-        })
-        .catch(function(err) { 
-            console.error('加载失败:', err);
-            showError('加载失败: ' + (err.message || '未知错误'));
-        });
+    // 添加详细的错误日志
+    window.addEventListener('error', function(e) {
+        console.error('全局错误:', e.error || e.message);
+        showError('资源加载错误: ' + (e.message || e.filename || '未知错误'));
+    });
+    
+    // 检查 System 是否存在
+    if (typeof System === 'undefined') {
+        console.error('SystemJS 未加载');
+        showError('SystemJS 未加载,请检查 system.bundle.js');
+    } else {
+        console.log('SystemJS 已加载,开始导入主文件...');
+        updateProgress('SystemJS 已就绪,正在加载主文件...');
+        
+        System.import('./index.ab0bc.js')
+            .then(function() {
+                console.log('主文件加载成功');
+                updateProgress('资源加载完成,正在初始化...');
+                // 延迟隐藏加载界面,确保游戏完全启动
+                setTimeout(hideLoading, 1500);
+            })
+            .catch(function(err) { 
+                console.error('加载失败:', err);
+                console.error('错误堆栈:', err.stack);
+                showError('加载失败: ' + (err.message || err.toString() || '未知错误'));
+            });
+    }
 </script>
 
 </body>

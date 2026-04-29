@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>资源加载诊断</title>
+  <style>
+    body {
+      font-family: monospace;
+      padding: 20px;
+      background: #1e1e1e;
+      color: #d4d4d4;
+    }
+    .success { color: #4ec9b0; }
+    .error { color: #f48771; }
+    .info { color: #569cd6; }
+    pre { 
+      background: #252526; 
+      padding: 10px; 
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 资源加载诊断</h1>
+  <div id="output"></div>
+
+  <script>
+    const output = document.getElementById('output');
+    
+    function log(message, type = 'info') {
+      const div = document.createElement('div');
+      div.className = type;
+      div.textContent = message;
+      output.appendChild(div);
+    }
+
+    async function checkResource(url, description) {
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          log(`✓ ${description}: ${response.status} ${response.statusText}`, 'success');
+          return true;
+        } else {
+          log(`✗ ${description}: ${response.status} ${response.statusText}`, 'error');
+          return false;
+        }
+      } catch (error) {
+        log(`✗ ${description}: ${error.message}`, 'error');
+        return false;
+      }
+    }
+
+    async function diagnose() {
+      log('开始诊断...', 'info');
+      log('');
+      
+      const baseUrl = window.location.origin;
+      
+      const resources = [
+        ['index.html', '主页面'],
+        ['style.f76d1.css', '样式文件'],
+        ['src/polyfills.bundle.5adbf.js', 'Polyfills'],
+        ['src/system.bundle.543e6.js', 'SystemJS'],
+        ['src/import-map.869a8.json', 'Import Map'],
+        ['index.ab0bc.js', '主入口文件'],
+        ['application.1a03b.js', '应用文件']
+      ];
+
+      log('检查资源文件:', 'info');
+      log('');
+
+      for (const [path, desc] of resources) {
+        await checkResource(`${baseUrl}/${path}`, desc);
+      }
+
+      log('');
+      log('检查目录:', 'info');
+      log('');
+
+      const dirs = [
+        ['src/', 'src 目录'],
+        ['assets/', 'assets 目录'],
+        ['cocos-js/', 'cocos-js 目录']
+      ];
+
+      for (const [path, desc] of dirs) {
+        await checkResource(`${baseUrl}/${path}`, desc);
+      }
+
+      log('');
+      log('诊断完成', 'info');
+    }
+
+    diagnose();
+  </script>
+</body>
+</html>
