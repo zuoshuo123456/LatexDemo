@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>本地测试 - 资源路径检查</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+        }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>资源路径测试</h1>
+    <div id="results"></div>
+    
+    <script>
+        const files = [
+            'style.f76d1.css',
+            'src/polyfills.bundle.5adbf.js',
+            'src/system.bundle.543e6.js',
+            'src/import-map.869a8.json',
+            'index.ab0bc.js',
+            'application.1a03b.js'
+        ];
+        
+        const results = document.getElementById('results');
+        
+        files.forEach(file => {
+            fetch(file)
+                .then(response => {
+                    const div = document.createElement('div');
+                    div.className = 'test-item';
+                    if (response.ok) {
+                        div.innerHTML = `<span class="success">✓</span> ${file} - OK (${response.status})`;
+                    } else {
+                        div.innerHTML = `<span class="error">✗</span> ${file} - 失败 (${response.status})`;
+                    }
+                    results.appendChild(div);
+                })
+                .catch(err => {
+                    const div = document.createElement('div');
+                    div.className = 'test-item';
+                    div.innerHTML = `<span class="error">✗</span> ${file} - 错误: ${err.message}`;
+                    results.appendChild(div);
+                });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+# Git 相关
+.git
+.gitignore
+
+# 文档和测试文件
+README.md
+DEPLOY.md
+test-local.html
+start-server.bat
+
+# 开发工具
+.vscode
+.idea
+*.log
