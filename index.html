@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown + LaTeX 混合渲染 Demo</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .demo-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .demo-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .comparison-item {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        
+        .comparison-item h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.2em;
+        }
+        
+        .comparison-item.before h3 {
+            color: #e74c3c;
+        }
+        
+        .comparison-item.after h3 {
+            color: #27ae60;
+        }
+        
+        .content {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            min-height: 150px;
+            line-height: 1.8;
+        }
+        
+        .content h3 {
+            color: #2c3e50;
+            margin: 15px 0 10px 0;
+        }
+        
+        .content h4 {
+            color: #34495e;
+            margin: 10px 0 8px 0;
+        }
+        
+        .content p {
+            margin: 10px 0;
+            color: #555;
+        }
+        
+        .error-text {
+            color: #e74c3c;
+            font-family: monospace;
+            background: #ffe6e6;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .tech-tag {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔬 Markdown + LaTeX 混合渲染修复 Demo</h1>
+            <p>使用 Kiro AI Agent 解决 Markdown 加粗语法与 LaTeX 公式冲突问题</p>
+        </div>
+        
+        <div class="demo-section">
+            <h2>📊 问题演示：修复前 vs 修复后</h2>
+            
+            <div class="comparison">
+                <div class="comparison-item before">
+                    <h3>❌ 修复前（渲染错误）</h3>
+                    <div class="content">
+                        <h4>1. 时间膨胀公式</h4>
+                        <p>当一个物体以速度 \(v\) 相对于观察者运动时：</p>
+                        <div class="error-text">
+                            \[t = rac{v^{2}}{c^{2}}}}}\]
+                        </div>
+                        <p class="error-text">公式内的 ** 被误识别为加粗标记，导致渲染失败</p>
+                    </div>
+                </div>
+                
+                <div class="comparison-item after">
+                    <h3>✅ 修复后（正常渲染）</h3>
+                    <div class="content">
+                        <h4>1. 时间膨胀公式</h4>
+                        <p>当一个物体以速度 \(v\) 相对于观察者运动时：</p>
+                        <p>\[t = \frac{t_0}{\sqrt{1-\frac{v^{2}}{c^{2}}}}\]</p>
+                        <p>其中 \(t_0\) 是固有时，\(v\) 是运动速度，\(c\) 是光速。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>🎯 更多示例</h2>
+            
+            <div class="comparison">
+                <div class="comparison-item before">
+                    <h3>❌ 问题案例 2</h3>
+                    <div class="content">
+                        <p><strong>洛伦兹变换</strong></p>
+                        <div class="error-text">
+                            - $x$ 坐标变换：$x'=\gamma(x - vt)$
+                        </div>
+                        <p class="error-text">$x$ 后的 ** 与公式内的 ** 配对错误</p>
+                    </div>
+                </div>
+                
+                <div class="comparison-item after">
+                    <h3>✅ 修复后</h3>
+                    <div class="content">
+                        <p><strong>洛伦兹变换</strong></p>
+                        <p>- <strong>\(x\) 坐标变换</strong>：\(x'=\gamma(x - vt)\)</p>
+                        <p>- <strong>时间变换</strong>：\(t' = \gamma(t - \frac{v}{c^{2}}x)\)</p>
+                        <p>其中 \(\gamma=\frac{1}{\sqrt{1 - \frac{v^{2}}{c^{2}}}}\)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>💡 技术方案</h2>
+            <div class="content">
+                <h3>核心思路：预处理 + 双重防护</h3>
+                
+                <h4>1. 预处理阶段</h4>
+                <div class="code-block">// 在 Markdown 解析前清理公式内外的 ** 标记
+private static _stripStarsAroundFormulas(text: string): string {
+    // 剥掉包裹块级公式的 **
+    text = text.replace(/\*\*(\s*\\\[[\s\S]*?\\\]\s*)\*\*/g, '$1');
+    
+    // 剥掉 $...$ 行内公式内部的 **
+    text = text.replace(/\$([^$]*?)\$/g, (match, inner) => {
+        return '$' + inner.replace(/\*\*/g, '') + '$';
+    });
+    
+    return text;
+}</div>
+                
+                <h4>2. 解析阶段防护</h4>
+                <div class="code-block">// 查找 ** 时跳过公式内部
+private static findStarOutsideMath(text, startIndex): number {
+    while (i < text.length) {
+        // 跳过 $...$ 公式
+        if (text[i] === '$') { /* 跳过逻辑 */ }
+        
+        // 跳过 \(...\) 公式
+        if (text[i] === '\\' && text[i+1] === '(') { /* 跳过 */ }
+        
+        // 跳过 \[...\] 公式
+        if (text[i] === '\\' && text[i+1] === '[') { /* 跳过 */ }
+        
+        if (text[i] === '*') return i;
+    }
+}</div>
+                
+                <h3>技术栈</h3>
+                <div class="tech-stack">
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">Cocos Creator 3.x</span>
+                    <span class="tech-tag">自研 Markdown 解析器</span>
+                    <span class="tech-tag">自研 LaTeX 渲染引擎</span>
+                    <span class="tech-tag">正则表达式</span>
+                    <span class="tech-tag">AST 解析</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>📈 成果价值</h2>
+            <div class="content">
+                <ul style="line-height: 2; color: #555;">
+                    <li>✅ 修复了 AI 生成内容中 Markdown 与 LaTeX 混合渲染的兼容性问题</li>
+                    <li>✅ 提升了教育场景下数学公式显示的稳定性和准确性</li>
+                    <li>✅ 问题从诊断到解决仅用时约 30 分钟（传统人工调试预计需要 2-3 小时）</li>
+                    <li>✅ 代码改动集中在 2 个函数（约 40 行），保持了架构的简洁性</li>
+                    <li>✅ 支持三种公式语法：$...$、\(...\)、\[...\]</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+</body>
+</html>
